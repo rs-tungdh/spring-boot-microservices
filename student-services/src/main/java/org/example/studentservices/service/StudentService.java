@@ -1,42 +1,18 @@
 package org.example.studentservices.service;
 
+import org.example.studentservices.dto.StudentDto;
 import org.example.studentservices.model.Student;
-import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.Optional;
 
-@Component
-public class StudentService {
-    private static List<Student> students = new ArrayList<>();
 
-    private static int studentCount = 0;
+public interface StudentService {
+    public List<Student> findAll();
 
-    static {
-        students.add(new Student(++studentCount, "A", "01/01/2000", "HN"));
-        students.add(new Student(++studentCount, "B", "02/01/2000", "ĐN"));
-        students.add(new Student(++studentCount, "C", "03/01/2000", "HCM"));
-    }
+    public Optional<Student> findById(int studentId);
 
-    public List<Student> findAllStudent() {
-        return students;
-    }
+    public StudentDto save(StudentDto studentDto);
 
-    public Student findStudentById(int id) {
-        Predicate<? super Student> predicate = student -> student.getId() == id;
-
-        return students.stream().filter(predicate).findFirst().orElse(null);
-    }
-
-    public Student saveStudent(Student student) {
-        student.setId(++studentCount);
-        students.add(student);
-        return student;
-    }
-
-    public void deleteStudentById(int id) {
-        Predicate<? super Student> predicate = student -> student.getId() == id;
-        students.removeIf(predicate);
-    }
+    public void deleteById(int studentId);
 }

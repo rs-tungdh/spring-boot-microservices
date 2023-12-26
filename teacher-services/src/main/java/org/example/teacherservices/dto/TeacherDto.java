@@ -1,20 +1,11 @@
-package org.example.teacherservices.model;
+package org.example.teacherservices.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
-import java.util.List;
-
-@Entity
-@Table(name="teacher")
-public class Teacher {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TeacherDto {
     private int id;
 
-    @Size(min = 1, message = "Name should have at least 1 characters")
     private String name;
 
     @JsonProperty("date_of_birth")
@@ -24,12 +15,10 @@ public class Teacher {
 
     private String subject;
 
-//    @ElementCollection
     @JsonProperty("student_id")
     private int studentId;
 
-
-    public Teacher(int id, String name, String dateOfBirth, String address, String subject, int studentId) {
+    public TeacherDto(int id, String name, String dateOfBirth, String address, String subject, int studentId) {
         this.id = id;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
@@ -38,8 +27,7 @@ public class Teacher {
         this.studentId = studentId;
     }
 
-    public Teacher() {
-
+    public TeacherDto() {
     }
 
     public int getId() {
@@ -90,17 +78,9 @@ public class Teacher {
         this.studentId = studentId;
     }
 
-    //    public List<Integer> getStudentId() {
-//        return studentId;
-//    }
-//
-//    public void setStudentId(List<Integer> studentId) {
-//        this.studentId = studentId;
-//    }
-
     @Override
     public String toString() {
-        return "Teacher{" +
+        return "TeacherDto{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", dateOfBirth='" + dateOfBirth + '\'' +

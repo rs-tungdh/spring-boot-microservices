@@ -5,6 +5,7 @@ import org.example.teacherservices.dto.StudentDto;
 import org.example.teacherservices.dto.TeacherDto;
 import org.example.teacherservices.model.Teacher;
 import org.example.teacherservices.repository.TeacherRepository;
+import org.example.teacherservices.service.APIClient;
 import org.example.teacherservices.service.TeacherService;
 import org.example.teacherservices.service.exception.TeacherNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,8 @@ public class TeacherServiceImpl implements TeacherService {
     private TeacherRepository teacherRepository;
 
     @Autowired
-    private RestTemplate restTemplate;
+    private APIClient apiClient;
+//    private RestTemplate restTemplate;
 
     @Override
     public List<Teacher> findAll() {
@@ -37,20 +39,12 @@ public class TeacherServiceImpl implements TeacherService {
             throw new TeacherNotFoundException("id" + teacherId);
         }
 
-        ResponseEntity<StudentDto> responseEntity = restTemplate.getForEntity(
-                "http://localhost:8080/students/" + teacher.get().getStudentId(),
-                StudentDto.class
-        );
+//        ResponseEntity<StudentDto> responseEntity = restTemplate.getForEntity(
+//                "http://localhost:8080/students/" + teacher.get().getStudentId(),
+//                StudentDto.class
+//        );
 
-        return getApiResponseDto(responseEntity, teacher, teacherId);
-    }
-
-    private static APIResponseDto getApiResponseDto(ResponseEntity<StudentDto> responseEntity, Optional<Teacher> teacher, int teacherId) {
-        StudentDto studentDto = responseEntity.getBody();
-
-        if (teacher.isEmpty()) {
-            throw new TeacherNotFoundException("id" + teacherId);
-        }
+        StudentDto studentDto = apiClient.retrieveStudentDtoById(teacher.get().getStudentId());
 
         TeacherDto teacherDto = new TeacherDto(
                 teacher.get().getId(),

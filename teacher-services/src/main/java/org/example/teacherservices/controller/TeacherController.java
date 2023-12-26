@@ -29,18 +29,6 @@ public class TeacherController {
     @GetMapping("/teachers/{id}")
     public ResponseEntity<APIResponseDto> retrieveTeacherById(@PathVariable int id) {
         APIResponseDto apiResponseDto = teacherService.findById(id);
-
-//        if (teacher.isEmpty()) {
-//            throw new TeacherNotFoundException("id" + id);
-//        }
-
-//        EntityModel<Teacher> entityModel = EntityModel.of(student.get());
-//
-//        WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrieveAllTeachers());
-//        entityModel.add(link.withRel("all-users"));
-//
-//        return entityModel;
-
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
